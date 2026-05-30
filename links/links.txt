@@ -1,0 +1,1 @@
+https://jdriven.com/blog/2015/03/using-spring-managed-bean-in-non-managed-object
