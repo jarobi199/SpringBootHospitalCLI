@@ -1,6 +1,5 @@
 package io.hospital.menu;
 
-import io.hospital.authentication.SessionContext;
 import io.hospital.enums.Role;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.service.UserService;
