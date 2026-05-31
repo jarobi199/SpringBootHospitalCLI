@@ -29,10 +29,27 @@ public class StaffAccountMenu implements IRoleMenu {
     }
 
     public void changePassword() {
-
+        System.out.print("Enter new password: ");
+        String newPassword = InputHandler.getStringInput();
+        if (userService.changePassword(newPassword)) {
+            System.out.println("Password changed successfully!");
+        }
+        else
+        {
+            System.out.println("Password not changed. Old PIN and new PIN cannot be the same!");
+        }
     }
 
     public void deleteStaffMember() {
+        System.out.print("Enter username of the user to be deleted: ");
+        String username = InputHandler.getStringInput();
+        if (userService.deleteUser(username)) {
+            System.out.println("User deleted successfully!");
+        }
+        else
+        {
+            System.out.println("User not found!");
+        }
     }
 
     public void addStaffMember() {
@@ -63,7 +80,7 @@ public class StaffAccountMenu implements IRoleMenu {
     }
 
     public void listStaff() {
-
+        userService.listStaff();
     }
 
     @Override

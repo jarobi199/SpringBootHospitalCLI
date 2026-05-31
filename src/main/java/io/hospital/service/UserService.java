@@ -8,6 +8,7 @@ import io.hospital.enums.Specialization;
 import io.hospital.factory.UserFactory;
 import io.hospital.model.User;
 import io.hospital.repository.UserRepository;
+import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,8 +69,16 @@ public class UserService {
             userRepository.delete(user);
             deleted = true;
         }
-
         return deleted;
     }
 
+    public void listStaff() {
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("FULL NAME", "USERNAME", "PASSWORD", "ROLE");
+        for(User user : userRepository.findAll() ) {
+            table.addRow(user.getName(), user.getUsername(), user.getPassword(),user.getRole().name());
+        }
+        table.print();
+    }
 }
