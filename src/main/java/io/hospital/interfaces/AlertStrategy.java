@@ -1,4 +1,8 @@
 package io.hospital.interfaces;
 
-public class AlertStrategy {
+import io.hospital.alert.AlertContext;
+
+public interface AlertStrategy {
+    boolean supports(AlertContext context);
+    void evaluate(AlertContext context);
 }

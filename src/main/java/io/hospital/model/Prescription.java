@@ -1,4 +1,5 @@
 package io.hospital.model;
 
-public class Prescription {
-}
+import java.time.LocalDate;
+
+public record Prescription(String name, double dosage, int frequency, LocalDate startDate, LocalDate endDate, boolean active ) {}

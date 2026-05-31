@@ -1,4 +1,7 @@
 package io.hospital.model;
 
-public class Diagnosis {
-}
+import io.hospital.enums.Severity;
+
+import java.time.LocalDate;
+
+public record Diagnosis(String condition, Severity severity, LocalDate diagnosisDate) {}

@@ -1,4 +1,23 @@
 package io.hospital.alert;
 
-public class LongStayStrategy {
+import io.hospital.interfaces.AlertStrategy;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class LongStayStrategy implements AlertStrategy {
+
+    public static final int ADMISSION_LIMIT = 30;
+
+    @Override
+    public boolean supports(AlertContext context) {
+        return context.patient() != null;
+    }
+
+    @Override
+    public void evaluate(AlertContext context) {
+        if((context.patient().getDischargeDate() == null) && ((ChronoUnit.DAYS.between(context.patient().getAdmissionDate(), LocalDate.now()) > ADMISSION_LIMIT))) {
+            System.out.println("ALERT: The patient has been admitted for more than " + ADMISSION_LIMIT + " days!");
+        }
+    }
 }
