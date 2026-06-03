@@ -6,6 +6,7 @@ import io.hospital.enums.Role;
 import io.hospital.enums.Shift;
 import io.hospital.enums.Specialization;
 import io.hospital.factory.UserFactory;
+import io.hospital.model.Doctor;
 import io.hospital.model.User;
 import io.hospital.repository.UserRepository;
 import io.hospital.util.CommandLineTable;
@@ -81,4 +82,24 @@ public class UserService {
         }
         table.print();
     }
+
+    public void listAllDoctors() {
+        CommandLineTable table = new CommandLineTable();
+        table.setShowVerticalLines(true);
+        table.setHeaders("FULL NAME", "USERNAME", "PASSWORD", "ROLE","LICENSE NUMBER","SPECIALIZATION","AVAILABLE");
+        for(User user : userRepository.findByRole(Role.DOCTOR) ) {
+            Doctor doctor = (Doctor) user;
+            table.addRow(doctor.getName(), doctor.getUsername(), doctor.getPassword(),doctor.getRole().name(),
+                    String.valueOf(doctor.getLicenseNumber()), doctor.getSpecialization().name(), String.valueOf(doctor.isAvailable()));
+        }
+        table.print();
+    }
+
+    public void changeAvailability(String username) {
+        Doctor doctor = (Doctor) findByUser(username);
+        doctor.setAvailable(!doctor.isAvailable());
+        System.out.println("The doctor's current availability has been changed to: " + (doctor.isAvailable() ? "AVAILABLE" : "UNAVAILABLE"));
+    }
+
+
 }

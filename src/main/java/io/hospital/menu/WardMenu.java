@@ -36,10 +36,15 @@ public class WardMenu implements IRoleMenu {
     }
 
     public void deleteWard() {
-
+        System.out.println("Enter the name of the ward that you want to delete:");
+        String wardName = InputHandler.getStringInput();
+        wardService.deleteWard(wardName);
     }
 
-    public void viewWardPatients() {
+    public void viewWardPatients () {
+        System.out.println("Enter the name of the ward that you want to view the patients:");
+        String wardName = InputHandler.getStringInput();
+        wardService.listWardPatients(wardName);
     }
 
     public void addWard() {

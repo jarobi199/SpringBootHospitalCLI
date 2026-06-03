@@ -33,7 +33,7 @@ public class AdminMenu implements IRoleMenu {
                                 new MenuOption("Delete ward", MenuAction.DELETE_WARD),
                                 new MenuOption("Back", MenuAction.DELETE_WARD)
                         ));
-                case 3 -> new DoctorMenu();
+                case 3 -> new DoctorListMenu();
                 case 4 -> new MedicalRecordMenu();
                 case 5 -> new ReportMenu();
                 case 6 -> new StaffAccountMenu();
