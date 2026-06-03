@@ -32,6 +32,7 @@ public class DoctorListMenu implements IRoleMenu {
     }
 
     public void listAllDoctors() {
+
         userService.listAllDoctors();
     }
 

@@ -1,5 +1,6 @@
 package io.hospital.service;
 
+import io.hospital.enums.WardType;
 import io.hospital.model.Patient;
 import io.hospital.model.Ward;
 import io.hospital.repository.PatientRepository;
@@ -38,5 +39,21 @@ public class WardService {
             }
             table.print();
         }
+    }
+
+    public void addWard(String wardName, WardType wardType, int totalBeds) {
+        Ward ward = new Ward(wardName, wardType, totalBeds);
+        wardRepository.save(ward);
+    }
+
+    public void listWards() {
+        List<Ward> wards = wardRepository.findAll();
+        CommandLineTable table = new CommandLineTable();
+        table.setHeaders("NAME", "WARD TYPE", "TOTAL BEDS","CURRENT OCCUPANCY");
+        table.setShowVerticalLines(true);
+        wards.forEach(ward -> {
+            table.addRow(ward.getName(), ward.getWardType().name(), String.valueOf(ward.getTotalBeds()), String.valueOf(ward.getCurrentOccupancy()));
+        });
+        table.print();
     }
 }

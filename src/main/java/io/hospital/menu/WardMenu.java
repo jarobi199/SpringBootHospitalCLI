@@ -2,6 +2,7 @@ package io.hospital.menu;
 
 import io.hospital.bridge.SpringContext;
 import io.hospital.enums.MenuAction;
+import io.hospital.enums.WardType;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.service.WardService;
 import io.hospital.util.InputHandler;
@@ -48,10 +49,24 @@ public class WardMenu implements IRoleMenu {
     }
 
     public void addWard() {
+        System.out.println("Enter the name of the ward");
+        String wardName = InputHandler.getStringInput();
+        System.out.println("Enter the ward type (GENERAL, ICU, PAEDIATRIC, MATERNITY, SURGICAL, ONCOLOGY):");
+        WardType wardType = WardType.valueOf(InputHandler.getStringInput());
+        System.out.println("Enter the number of beds:");
+        int totalBeds = InputHandler.getIntegerInput();
+
+        wardService.addWard(wardName, wardType, totalBeds);
+        System.out.println("Ward added!");
     }
 
     public void listWards() {
+        wardService.listWards();
     }
+
+    private WardType wardType;
+    private int totalBeds;
+    private int currentOccupancy;
 
     @Override
     public void printOptions() {
