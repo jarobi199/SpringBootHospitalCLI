@@ -1,12 +1,15 @@
 package io.hospital.service;
 
 import io.hospital.authentication.SessionContext;
+import io.hospital.enums.Gender;
+import io.hospital.enums.Status;
 import io.hospital.model.Patient;
 import io.hospital.repository.PatientRepository;
 import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
