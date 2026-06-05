@@ -64,10 +64,6 @@ public class WardMenu implements IRoleMenu {
         wardService.listWards();
     }
 
-    private WardType wardType;
-    private int totalBeds;
-    private int currentOccupancy;
-
     @Override
     public void printOptions() {
         int i = 1;
@@ -76,4 +72,5 @@ public class WardMenu implements IRoleMenu {
             i++;
         }
     }
+
 }

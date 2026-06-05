@@ -1,5 +1,6 @@
 package io.hospital.menu;
 
+import io.hospital.authentication.SessionContext;
 import io.hospital.bridge.SpringContext;
 import io.hospital.enums.MenuAction;
 import io.hospital.interfaces.IRoleMenu;
@@ -57,11 +58,11 @@ public class PatientMenu implements IRoleMenu {
     }
 
     public void listMyPatients() {
-
+       patientService.listPatients(SessionContext.getCurrentUser().getId());
     }
 
     public void listPatients() {
-
+        patientService.listPatients();
     }
 
     @Override
