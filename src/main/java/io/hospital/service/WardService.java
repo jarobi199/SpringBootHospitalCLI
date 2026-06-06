@@ -56,4 +56,9 @@ public class WardService {
         });
         table.print();
     }
+
+    public List<Ward> getWards() {
+        return wardRepository.findAll();
+    }
+
 }

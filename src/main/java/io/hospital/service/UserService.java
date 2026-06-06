@@ -63,6 +63,10 @@ public class UserService {
         return changed;
     }
 
+    public List<User> findByRole(Role role) {
+        return userRepository.findByRole(role);
+    }
+
     public boolean deleteUser(String username) {
         boolean deleted = false;
         User user = findByUser(username);
