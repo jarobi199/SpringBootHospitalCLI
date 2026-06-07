@@ -3,6 +3,7 @@ package io.hospital.service;
 import io.hospital.authentication.SessionContext;
 import io.hospital.enums.Gender;
 import io.hospital.enums.Status;
+import io.hospital.model.Doctor;
 import io.hospital.model.Patient;
 import io.hospital.model.User;
 import io.hospital.model.Ward;
@@ -57,4 +58,15 @@ public class PatientService {
 
         //TODO: Execute WardCapacityStrategy
     }
+
+    public List<Patient> getPatients() {
+        return patientRepository.findAll();
+    }
+
+    public void assignDoctor(Patient patient, User doctor) {
+        patient.setDoctorId(doctor.getId());
+        patientRepository.save(patient);
+        System.out.println("Patient assigned to doctor: Dr. " + doctor.getName());
+    }
+
 }

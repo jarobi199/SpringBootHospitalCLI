@@ -14,5 +14,4 @@ public enum MenuAction {
     ADMIT_PATIENT,
     DISCHARGE_PATIENT,
     ASSIGN_TO_DOCTOR,
-    ASSIGN_TO_WARD
 }

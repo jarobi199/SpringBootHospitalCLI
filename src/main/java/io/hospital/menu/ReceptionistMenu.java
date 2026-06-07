@@ -22,7 +22,6 @@ public class ReceptionistMenu implements IRoleMenu {
                                 new MenuOption("Admit patient", MenuAction.ADMIT_PATIENT),
                                 new MenuOption("Discharge patient", MenuAction.DISCHARGE_PATIENT),
                                 new MenuOption("Assign to doctor", MenuAction.ASSIGN_TO_DOCTOR),
-                                new MenuOption("Assign to ward", MenuAction.ASSIGN_TO_WARD),
                                 new MenuOption("Back", MenuAction.DELETE_WARD)
                         ));
                 case 2 -> new WardMenu(

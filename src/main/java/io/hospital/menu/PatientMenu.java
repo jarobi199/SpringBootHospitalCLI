@@ -8,6 +8,7 @@ import io.hospital.enums.Role;
 import io.hospital.enums.Status;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.model.Doctor;
+import io.hospital.model.Patient;
 import io.hospital.model.User;
 import io.hospital.model.Ward;
 import io.hospital.service.PatientService;
@@ -17,6 +18,7 @@ import io.hospital.util.InputHandler;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 public class PatientMenu implements IRoleMenu {
@@ -46,17 +48,15 @@ public class PatientMenu implements IRoleMenu {
                 case ADMIT_PATIENT -> admitPatients();
                 case DISCHARGE_PATIENT -> dischargePatient();
                 case ASSIGN_TO_DOCTOR -> assignDoctor();
-                case ASSIGN_TO_WARD -> assignWard();
             }
         }
         while (choice != 0);
     }
 
-    public void assignWard() {
-    }
-
     public void assignDoctor() {
-
+        Patient patient = listPatientsAndSelect();
+        User doctor = listDoctorsAndSelect();
+        patientService.assignDoctor(patient, doctor);
     }
 
     public void dischargePatient() {
@@ -85,11 +85,14 @@ public class PatientMenu implements IRoleMenu {
     private User listDoctorsAndSelect() {
         int i = 1;
         List<User> allDoctors = userService.findByRole(Role.DOCTOR);
-        List<Doctor> availableDoctors = allDoctors.stream().map(user -> (Doctor) user).filter(Doctor::isAvailable).toList();
+        List<Doctor> availableDoctors = allDoctors.stream().map(user -> (Doctor) user).
+                filter(Doctor::isAvailable).
+                sorted(Comparator.comparing(Doctor::getSpecialization)).
+                toList();
         for (Doctor doctor : availableDoctors) {
-            System.out.println(i + ") " + doctor.getName());
+            System.out.println(i + ") Dr.  " + doctor.getName() + " (" + doctor.getSpecialization() + ")");
         }
-        System.out.println("Please select a ward:");
+        System.out.println("Please select a doctor:");
         int doctorIndex = InputHandler.getIntegerInput() - 1;
         return allDoctors.get(doctorIndex);
     }
@@ -103,6 +106,17 @@ public class PatientMenu implements IRoleMenu {
         System.out.println("Please select a ward:");
         int wardIndex = InputHandler.getIntegerInput() - 1;
         return allWards.get(wardIndex);
+    }
+
+    private Patient listPatientsAndSelect() {
+        int i = 1;
+        List<Patient> allPatients = patientService.getPatients();
+        for (Patient patient : allPatients) {
+            System.out.println(i + ") " + patient.getFirstName() + " " + patient.getLastName());
+        }
+        System.out.println("Please select a patient:");
+        int patientIndex = InputHandler.getIntegerInput() - 1;
+        return allPatients.get(patientIndex);
     }
 
     public void viewPatients() {
