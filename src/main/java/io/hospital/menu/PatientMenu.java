@@ -71,13 +71,15 @@ public class PatientMenu implements IRoleMenu {
         System.out.println("Please enter your gender (MALE, FEMALE):");
         Gender gender = Gender.valueOf(InputHandler.getStringInput());
         System.out.println("Please enter your phone number:");
-        String phoneNumber = InputHandler.getStringInput();
+        int phoneNumber = InputHandler.getIntegerInput();
         System.out.println("Please enter your date of birth(yyyy-MM-dd):");
         LocalDate birthDate = LocalDate.parse(InputHandler.getStringInput());
         Status status = Status.ADMITTED;
         LocalDateTime admissionDate = LocalDateTime.now();
         User doctor = listDoctorsAndSelect();
         Ward ward = listWardsAndSelect();
+
+        patientService.admitPatient(firstName, lastName, gender, phoneNumber, birthDate, admissionDate, status, doctor,ward);
     }
 
     private User listDoctorsAndSelect() {

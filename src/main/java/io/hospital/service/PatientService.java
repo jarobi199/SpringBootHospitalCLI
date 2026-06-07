@@ -4,11 +4,15 @@ import io.hospital.authentication.SessionContext;
 import io.hospital.enums.Gender;
 import io.hospital.enums.Status;
 import io.hospital.model.Patient;
+import io.hospital.model.User;
+import io.hospital.model.Ward;
 import io.hospital.repository.PatientRepository;
+import io.hospital.repository.WardRepository;
 import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +22,8 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private WardRepository wardRepository;
 
     public void listPatients(String doctorId) {
         System.out.println("DR. " + SessionContext.getCurrentUser().getName().toUpperCase() + "'S PATIENT LIST:");
@@ -41,4 +47,14 @@ public class PatientService {
         table.print();
     }
 
+    public void admitPatient(String firstName, String lastName, Gender gender, int phoneNumber,
+                             LocalDate birthDate, LocalDateTime admissionDate, Status status, User doctor, Ward ward) {
+        Patient patient = new Patient(ward.getId(), doctor.getId(), birthDate, gender, firstName, lastName, birthDate, phoneNumber, status, null, admissionDate);
+        patientRepository.save(patient);
+
+        ward.setCurrentOccupancy(ward.getCurrentOccupancy() + 1);
+        wardRepository.save(ward);
+
+        //TODO: Execute WardCapacityStrategy
+    }
 }
