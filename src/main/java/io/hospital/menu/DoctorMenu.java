@@ -19,14 +19,12 @@ public class DoctorMenu implements IRoleMenu {
                 case 1 -> new PatientMenu(
                         List.of(new MenuOption("List my patients", MenuAction.LIST_MY_PATIENTS),
                                 new MenuOption("View patient detail", MenuAction.VIEW_PATIENT),
-                                new MenuOption("Assign to doctor", MenuAction.ASSIGN_TO_DOCTOR),
-                                new MenuOption("Back", MenuAction.DELETE_WARD)
+                                new MenuOption("Assign to doctor", MenuAction.ASSIGN_TO_DOCTOR)
                         ));
                 case 2 -> new MedicalRecordMenu();
                 case 3 -> new WardMenu(
                         List.of(new MenuOption("List all wards", MenuAction.LIST_WARDS),
-                                new MenuOption("View ward patients", MenuAction.VIEW_WARD_PATIENTS),
-                                new MenuOption("Back", MenuAction.DELETE_WARD)
+                                new MenuOption("View ward patients", MenuAction.VIEW_WARD_PATIENTS)
                         ));
                 case 0 -> new GoodbyeMenu();
                 default -> throw new IllegalStateException("Unexpected value: " + choice);
@@ -40,7 +38,7 @@ public class DoctorMenu implements IRoleMenu {
 
     @Override
     public void printOptions() {
-        System.out.println("[1] My patients");
+        System.out.println("[1] Patients");
         System.out.println("[2] Medical Records");
         System.out.println("[3] Prescriptions");
         System.out.println("[4] Wards");

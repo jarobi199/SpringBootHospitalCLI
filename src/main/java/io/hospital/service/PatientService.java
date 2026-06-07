@@ -3,11 +3,10 @@ package io.hospital.service;
 import io.hospital.authentication.SessionContext;
 import io.hospital.enums.Gender;
 import io.hospital.enums.Status;
-import io.hospital.model.Doctor;
-import io.hospital.model.Patient;
-import io.hospital.model.User;
-import io.hospital.model.Ward;
+import io.hospital.model.*;
+import io.hospital.repository.MedicalRecordRepository;
 import io.hospital.repository.PatientRepository;
+import io.hospital.repository.UserRepository;
 import io.hospital.repository.WardRepository;
 import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +24,8 @@ public class PatientService {
     private PatientRepository patientRepository;
     @Autowired
     private WardRepository wardRepository;
+    @Autowired
+    private MedicalRecordRepository medicalRecordRepository;
 
     public void listPatients(String doctorId) {
         System.out.println("DR. " + SessionContext.getCurrentUser().getName().toUpperCase() + "'S PATIENT LIST:");
@@ -69,4 +70,16 @@ public class PatientService {
         System.out.println("Patient assigned to doctor: Dr. " + doctor.getName());
     }
 
+    public void dischargePatient(Patient patient) {
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientId(patient.getId());
+        if (!medicalRecords.isEmpty()) {
+            System.out.println("There are no records available for this patient and therefore cannot be discharged");
+        }
+        else {
+            //TODO: Close all medical records
+            patient.setDischargeDate(LocalDateTime.now());
+            patient.setStatus(Status.DISCHARGED);
+            patientRepository.save(patient);
+        }
+    }
 }

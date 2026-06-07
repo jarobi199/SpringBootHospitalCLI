@@ -60,7 +60,8 @@ public class PatientMenu implements IRoleMenu {
     }
 
     public void dischargePatient() {
-
+        Patient patient = listPatientsAndSelect();
+        patientService.dischargePatient(patient);
     }
 
     public void admitPatients() {
@@ -138,5 +139,6 @@ public class PatientMenu implements IRoleMenu {
             System.out.println("[" + i + "] " + menuOption.label());
             i++;
         }
+        System.out.println("[0] Back");
     }
 }

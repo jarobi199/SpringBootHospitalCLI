@@ -72,6 +72,7 @@ public class StaffAccountMenu implements IRoleMenu {
             specialization = Specialization.valueOf(InputHandler.getStringInput().toUpperCase());
         }
         else if(Role.RECEPTIONIST.equals(role)) {
+            System.out.println("Please enter your shift (MORNING, EVENING, NIGHT):");
             shift = Shift.valueOf(InputHandler.getStringInput());
         }
 
