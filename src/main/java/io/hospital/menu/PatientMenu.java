@@ -4,7 +4,6 @@ import io.hospital.authentication.SessionContext;
 import io.hospital.bridge.SpringContext;
 import io.hospital.enums.Gender;
 import io.hospital.enums.MenuAction;
-import io.hospital.enums.Role;
 import io.hospital.enums.Status;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.model.Doctor;
@@ -18,7 +17,6 @@ import io.hospital.util.InputHandler;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 
 public class PatientMenu implements IRoleMenu {
