@@ -1,12 +1,13 @@
 package io.hospital.service;
 
+import io.hospital.alert.AlertContext;
+import io.hospital.alert.AlertManager;
 import io.hospital.authentication.SessionContext;
 import io.hospital.enums.Gender;
 import io.hospital.enums.Status;
 import io.hospital.model.*;
 import io.hospital.repository.MedicalRecordRepository;
 import io.hospital.repository.PatientRepository;
-import io.hospital.repository.UserRepository;
 import io.hospital.repository.WardRepository;
 import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -26,6 +28,8 @@ public class PatientService {
     private WardRepository wardRepository;
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private AlertManager alertManager;
 
     public void listPatients(String doctorId) {
         System.out.println("DR. " + SessionContext.getCurrentUser().getName().toUpperCase() + "'S PATIENT LIST:");
@@ -57,7 +61,7 @@ public class PatientService {
         ward.setCurrentOccupancy(ward.getCurrentOccupancy() + 1);
         wardRepository.save(ward);
 
-        //TODO: Execute WardCapacityStrategy
+        alertManager.evaluate(new AlertContext(null, ward, null, null));
     }
 
     public List<Patient> getPatients() {
@@ -72,11 +76,16 @@ public class PatientService {
 
     public void dischargePatient(Patient patient) {
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientId(patient.getId());
-        if (!medicalRecords.isEmpty()) {
+        if (medicalRecords.isEmpty()) {
             System.out.println("There are no records available for this patient and therefore cannot be discharged");
         }
         else {
-            //TODO: Close all medical records
+            medicalRecords.forEach(medicalRecord -> medicalRecord.setOpen(false));
+            Optional<Ward> optionalWard =  wardRepository.findById(patient.getWardId());
+            optionalWard.ifPresent(ward -> {
+                ward.setCurrentOccupancy(ward.getCurrentOccupancy() - 1);
+                wardRepository.save(ward);
+            });
             patient.setDischargeDate(LocalDateTime.now());
             patient.setStatus(Status.DISCHARGED);
             patientRepository.save(patient);

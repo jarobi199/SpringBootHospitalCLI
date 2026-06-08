@@ -15,7 +15,10 @@ public class MedicalRecord {
     private List<Prescription> prescriptions;
     private List<Procedure> procedures;
     private String notes;
+    private boolean open;
 
+    public MedicalRecord() {
+    }
     public LocalDateTime getVisitDate() {
         return visitDate;
     }
@@ -79,4 +82,12 @@ public class MedicalRecord {
     public void setId(String id) {
         this.id = id;
     }
+
+    public boolean isOpen() {
+        return open;
+    }
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
 }
