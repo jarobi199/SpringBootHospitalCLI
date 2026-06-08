@@ -45,7 +45,7 @@ public class PatientMenu implements IRoleMenu {
                 switch (menuAction) {
                     case LIST_PATIENTS -> listPatients();
                     case LIST_MY_PATIENTS -> listMyPatients();
-                    case VIEW_PATIENT -> viewPatients();
+                    case VIEW_PATIENT -> viewPatient();
                     case ADMIT_PATIENT -> admitPatients();
                     case DISCHARGE_PATIENT -> dischargePatient();
                     case ASSIGN_TO_DOCTOR -> assignDoctor();
@@ -87,18 +87,14 @@ public class PatientMenu implements IRoleMenu {
 
     private User listDoctorsAndSelect() {
         int i = 1;
-        List<User> allDoctors = userService.findByRole(Role.DOCTOR);
-        List<Doctor> availableDoctors = allDoctors.stream().map(user -> (Doctor) user).
-                filter(Doctor::isAvailable).
-                sorted(Comparator.comparing(Doctor::getSpecialization)).
-                toList();
+        List<Doctor> availableDoctors = userService.findAllAvailableDoctors();
         for (Doctor doctor : availableDoctors) {
             System.out.println(i + ") " + doctor.getName() + " (" + doctor.getSpecialization() + ")");
             i++;
         }
         System.out.println("Please select a doctor:");
         int doctorIndex = InputHandler.getIntegerInput() - 1;
-        return allDoctors.get(doctorIndex);
+        return availableDoctors.get(doctorIndex);
     }
 
     private Ward listWardsAndSelect() {
@@ -124,7 +120,7 @@ public class PatientMenu implements IRoleMenu {
         return allPatients.get(patientIndex);
     }
 
-    public void viewPatients() {
+    public void viewPatient() {
 
     }
 

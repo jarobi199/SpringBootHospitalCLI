@@ -13,6 +13,7 @@ import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -49,6 +50,13 @@ public class UserService {
 
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    public List<Doctor> findAllAvailableDoctors() {
+        return userRepository.findByRole(Role.DOCTOR).stream().map(user -> (Doctor) user).
+                filter(Doctor::isAvailable).
+                sorted(Comparator.comparing(Doctor::getSpecialization)).
+                toList();
     }
 
     public boolean changePassword(String newPassword) {
@@ -105,6 +113,7 @@ public class UserService {
         userRepository.save(doctor);
         System.out.println("The doctor's current availability has been changed to: " + (doctor.isAvailable() ? "AVAILABLE" : "UNAVAILABLE"));
     }
+
 
 
 }
