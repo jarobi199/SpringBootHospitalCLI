@@ -32,10 +32,10 @@ public class WardService {
             List<Patient> patients = patientRepository.findByWardId(ward.getId());
             CommandLineTable table = new CommandLineTable();
             table.setShowVerticalLines(true);
-            table.setHeaders("FIRST NAME", "LAST NAME", "GENDER","DATE OF BIRTH","CONTACT NUMBER","STATUS","DISCHARGE DATE","ADMISSION DATE");
-            for(Patient patient : patients) {
-                    table.addRow(patient.getFirstName(), patient.getLastName(), patient.getGender().name(), patient.getDateOfBirth().toString(),
-                            String.valueOf(patient.getContactNumber()), patient.getDischargeDate().toString(), patient.getAdmissionDate().toString());
+            table.setHeaders("FIRST NAME", "LAST NAME", "GENDER", "DATE OF BIRTH", "CONTACT NUMBER", "STATUS", "ADMISSION DATE", "DISCHARGE DATE" );
+            for (Patient patient : patients) {
+                table.addRow(patient.getFirstName(), patient.getLastName(), patient.getGender().name(), patient.getDateOfBirth().toString(),
+                        String.valueOf(patient.getContactNumber()), patient.getStatus().name(), patient.getAdmissionDate().toString(), (patient.getDischargeDate() == null) ? "N/A" : patient.getDischargeDate().toString());
             }
             table.print();
         }

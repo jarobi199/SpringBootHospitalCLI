@@ -40,8 +40,7 @@ public class DoctorMenu implements IRoleMenu {
     public void printOptions() {
         System.out.println("[1] Patients");
         System.out.println("[2] Medical Records");
-        System.out.println("[3] Prescriptions");
-        System.out.println("[4] Wards");
+        System.out.println("[3] Wards");
         System.out.println("[0] Back");
     }
 }
