@@ -21,13 +21,11 @@ public class ReceptionistMenu implements IRoleMenu {
                         List.of(new MenuOption("List all patients", MenuAction.LIST_PATIENTS),
                                 new MenuOption("Admit patient", MenuAction.ADMIT_PATIENT),
                                 new MenuOption("Discharge patient", MenuAction.DISCHARGE_PATIENT),
-                                new MenuOption("Assign to doctor", MenuAction.ASSIGN_TO_DOCTOR),
-                                new MenuOption("Back", MenuAction.DELETE_WARD)
+                                new MenuOption("Assign to doctor", MenuAction.ASSIGN_TO_DOCTOR)
                         ));
                 case 2 -> new WardMenu(
                         List.of(new MenuOption("List all wards", MenuAction.LIST_WARDS),
-                                new MenuOption("View ward patients", MenuAction.VIEW_WARD_PATIENTS),
-                                new MenuOption("Back", MenuAction.DELETE_WARD)
+                                new MenuOption("View ward patients", MenuAction.VIEW_WARD_PATIENTS)
                         ));
                 case 0 -> new GoodbyeMenu();
                 default -> throw new IllegalStateException("Unexpected value: " + choice);

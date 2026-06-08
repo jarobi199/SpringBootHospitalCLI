@@ -25,12 +25,14 @@ public class WardMenu implements IRoleMenu {
         do {
             printOptions();
             choice = InputHandler.getIntegerInput();
-            MenuAction menuAction = menuOptions.get(choice -1).action();
-            switch (menuAction) {
-                case LIST_WARDS -> listWards();
-                case ADD_WARD -> addWard();
-                case VIEW_WARD_PATIENTS -> viewWardPatients();
-                case DELETE_WARD -> deleteWard();
+            if (choice != 0) {
+                MenuAction menuAction = menuOptions.get(choice -1).action();
+                switch (menuAction) {
+                    case LIST_WARDS -> listWards();
+                    case ADD_WARD -> addWard();
+                    case VIEW_WARD_PATIENTS -> viewWardPatients();
+                    case DELETE_WARD -> deleteWard();
+                }
             }
         }
         while (choice != 0);
@@ -49,7 +51,7 @@ public class WardMenu implements IRoleMenu {
     }
 
     public void addWard() {
-        System.out.println("Enter the name of the ward");
+        System.out.println("Enter the name of the ward:");
         String wardName = InputHandler.getStringInput();
         System.out.println("Enter the ward type (GENERAL, ICU, PAEDIATRIC, MATERNITY, SURGICAL, ONCOLOGY):");
         WardType wardType = WardType.valueOf(InputHandler.getStringInput());
@@ -71,6 +73,7 @@ public class WardMenu implements IRoleMenu {
             System.out.println("[" + i + "] " + menuOption.label());
             i++;
         }
+        System.out.println("[0] Back");
     }
 
 }

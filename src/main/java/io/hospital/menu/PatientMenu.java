@@ -40,14 +40,16 @@ public class PatientMenu implements IRoleMenu {
         do {
             printOptions();
             choice = InputHandler.getIntegerInput();
-            MenuAction menuAction = menuOptions.get(choice -1).action();
-            switch (menuAction) {
-                case LIST_PATIENTS -> listPatients();
-                case LIST_MY_PATIENTS -> listMyPatients();
-                case VIEW_PATIENT -> viewPatients();
-                case ADMIT_PATIENT -> admitPatients();
-                case DISCHARGE_PATIENT -> dischargePatient();
-                case ASSIGN_TO_DOCTOR -> assignDoctor();
+            if (choice != 0) {
+                MenuAction menuAction = menuOptions.get(choice -1).action();
+                switch (menuAction) {
+                    case LIST_PATIENTS -> listPatients();
+                    case LIST_MY_PATIENTS -> listMyPatients();
+                    case VIEW_PATIENT -> viewPatients();
+                    case ADMIT_PATIENT -> admitPatients();
+                    case DISCHARGE_PATIENT -> dischargePatient();
+                    case ASSIGN_TO_DOCTOR -> assignDoctor();
+                }
             }
         }
         while (choice != 0);
@@ -91,7 +93,8 @@ public class PatientMenu implements IRoleMenu {
                 sorted(Comparator.comparing(Doctor::getSpecialization)).
                 toList();
         for (Doctor doctor : availableDoctors) {
-            System.out.println(i + ") Dr.  " + doctor.getName() + " (" + doctor.getSpecialization() + ")");
+            System.out.println(i + ") " + doctor.getName() + " (" + doctor.getSpecialization() + ")");
+            i++;
         }
         System.out.println("Please select a doctor:");
         int doctorIndex = InputHandler.getIntegerInput() - 1;
@@ -103,6 +106,7 @@ public class PatientMenu implements IRoleMenu {
         List<Ward> allWards = wardService.getWards();
         for (Ward ward : allWards) {
             System.out.println(i + ") " + ward.getName());
+            i++;
         }
         System.out.println("Please select a ward:");
         int wardIndex = InputHandler.getIntegerInput() - 1;

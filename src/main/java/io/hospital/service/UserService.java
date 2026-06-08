@@ -102,6 +102,7 @@ public class UserService {
     public void changeAvailability(String username) {
         Doctor doctor = (Doctor) findByUser(username);
         doctor.setAvailable(!doctor.isAvailable());
+        userRepository.save(doctor);
         System.out.println("The doctor's current availability has been changed to: " + (doctor.isAvailable() ? "AVAILABLE" : "UNAVAILABLE"));
     }
 
