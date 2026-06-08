@@ -8,6 +8,7 @@ import io.hospital.enums.Status;
 import io.hospital.model.*;
 import io.hospital.repository.MedicalRecordRepository;
 import io.hospital.repository.PatientRepository;
+import io.hospital.repository.UserRepository;
 import io.hospital.repository.WardRepository;
 import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class PatientService {
     private WardRepository wardRepository;
     @Autowired
     private MedicalRecordRepository medicalRecordRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private AlertManager alertManager;
 
@@ -90,5 +93,20 @@ public class PatientService {
             patient.setStatus(Status.DISCHARGED);
             patientRepository.save(patient);
         }
+    }
+
+    public void viewPatient(String firstName, String lastName) {
+        Patient patient = patientRepository.findByFirstNameAndLastName(firstName,lastName).getFirst();
+        Optional<Ward> optionalWard = wardRepository.findById(patient.getWardId());
+        Optional<User> optionalUser = userRepository.findById(patient.getDoctorId());
+        String wardName = (optionalWard.isEmpty()) ? "N/A" : optionalWard.get().getName();
+        String doctorName = (optionalUser.isEmpty()) ? "N/A" : optionalUser.get().getName();
+
+        System.out.println("WARD: " + wardName + " | DOCTOR: " + doctorName);
+        displayPatients(List.of(patient));
+        System.out.println();
+        System.out.println("MEDICAL RECORDS:");
+        System.out.println("PRESCRIPTIONS:");
+
     }
 }

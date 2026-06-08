@@ -119,7 +119,11 @@ public class PatientMenu implements IRoleMenu {
     }
 
     public void viewPatient() {
-
+        System.out.println("Please enter the patient's first name:");
+        String firstName = InputHandler.getStringInput();
+        System.out.println("Please enter the patient's last name:");
+        String lastName = InputHandler.getStringInput();
+        patientService.viewPatient(firstName, lastName);
     }
 
     public void listMyPatients() {
