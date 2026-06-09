@@ -1,4 +1,5 @@
 package io.hospital.model;
 
-public class Procedure {
-}
+import java.time.LocalDateTime;
+
+public record Procedure (String name, LocalDateTime performanceDate, String doctorId, String outcome, String notes){}

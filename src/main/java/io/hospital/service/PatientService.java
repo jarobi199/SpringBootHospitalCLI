@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -78,7 +81,8 @@ public class PatientService {
     }
 
     public void dischargePatient(Patient patient) {
-        List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientId(patient.getId());
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.
+                findByPatientIdAndOpenOrderByVisitDateDesc(patient.getId(), true);
         if (medicalRecords.isEmpty()) {
             System.out.println("There are no records available for this patient and therefore cannot be discharged");
         }
@@ -105,8 +109,19 @@ public class PatientService {
         System.out.println("WARD: " + wardName + " | DOCTOR: " + doctorName);
         displayPatients(List.of(patient));
         System.out.println();
-        System.out.println("MEDICAL RECORDS:");
+
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientIdOrderByVisitDateDesc(patient.getId());
+        List<Diagnosis> diagnoses = new ArrayList<>();
+        for (MedicalRecord medicalRecord : medicalRecords) {
+            diagnoses.addAll( medicalRecord.getDiagnoses());
+        }
+
+        System.out.println("DIAGNOSES:");
+        System.out.println();
         System.out.println("PRESCRIPTIONS:");
+        System.out.println();
+        System.out.println("PROCEDURES:");
+        System.out.println();
 
     }
 }
