@@ -19,9 +19,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 
 @Service
 public class PatientService {
@@ -112,14 +109,34 @@ public class PatientService {
 
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientIdOrderByVisitDateDesc(patient.getId());
         List<Diagnosis> diagnoses = new ArrayList<>();
+        List<Prescription> prescriptions = new ArrayList<>();
+        List<Procedure> procedures  = new ArrayList<>();
         for (MedicalRecord medicalRecord : medicalRecords) {
-            diagnoses.addAll( medicalRecord.getDiagnoses());
+            diagnoses.addAll(medicalRecord.getDiagnoses());
+            prescriptions.addAll(medicalRecord.getPrescriptions());
+            procedures.addAll(medicalRecord.getProcedures());
         }
 
-        System.out.println("DIAGNOSES:");
+        System.out.println("DIAGNOSES");
+        CommandLineTable diagnosisTable = new CommandLineTable();
+        diagnosisTable.setShowVerticalLines(true);
+        diagnosisTable.setHeaders("CONDITION", "SEVERITY", "DIAGNOSIS DATE");
+        for (Diagnosis diagnosis : diagnoses) {
+            diagnosisTable.addRow(diagnosis.condition(), diagnosis.severity().name(), diagnosis.diagnosisDate().toString());
+        }
+        diagnosisTable.print();
         System.out.println();
-        System.out.println("PRESCRIPTIONS:");
+
+        System.out.println("PRESCRIPTIONS");
+        CommandLineTable prescriptionTable = new CommandLineTable();
+        prescriptionTable.setShowVerticalLines(true);
+        prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE");
+        for (Prescription prescription : prescriptions) {
+            prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()), prescription.startDate().toString(), prescription.endDate().toString());
+        }
+        prescriptionTable.print();
         System.out.println();
+
         System.out.println("PROCEDURES:");
         System.out.println();
 
