@@ -7,6 +7,7 @@ import io.hospital.model.*;
 import io.hospital.repository.MedicalRecordRepository;
 import io.hospital.repository.PatientRepository;
 import io.hospital.repository.UserRepository;
+import io.hospital.util.CommandLineTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -104,6 +105,45 @@ public class MedicalRecordService {
             System.out.println("VISIT DATE: " + medicalRecord.getVisitDate());
             System.out.println("NOTES: " + medicalRecord.getNotes());
             System.out.println("STATUS: " + medicalRecord.isOpen());
+            System.out.println();
+
+            List<Diagnosis> diagnoses = medicalRecord.getDiagnoses();
+            List<Prescription> prescriptions = medicalRecord.getPrescriptions();
+            List<Procedure> procedures  = medicalRecord.getProcedures();
+
+            System.out.println("DIAGNOSES");
+            CommandLineTable diagnosisTable = new CommandLineTable();
+            diagnosisTable.setShowVerticalLines(true);
+            diagnosisTable.setHeaders("CONDITION", "SEVERITY", "DIAGNOSIS DATE");
+            for (Diagnosis diagnosis : diagnoses) {
+                diagnosisTable.addRow(diagnosis.condition(), diagnosis.severity().name(), diagnosis.diagnosisDate().toString());
+            }
+            diagnosisTable.print();
+            System.out.println();
+
+            System.out.println("PRESCRIPTIONS");
+            CommandLineTable prescriptionTable = new CommandLineTable();
+            prescriptionTable.setShowVerticalLines(true);
+            prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE","ALERT");
+            for (Prescription prescription : prescriptions) {
+                String alert = alertManager.evaluate(new AlertContext(null, null, prescription, null));
+                prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()),
+                        prescription.startDate().toString(), prescription.endDate().toString(), alert);
+            }
+            prescriptionTable.print();
+            System.out.println();
+            alertManager.evaluate(new AlertContext(null, null, prescriptions.getFirst(), null));
+
+            System.out.println("PROCEDURES");
+            CommandLineTable procedureTable = new CommandLineTable();
+            procedureTable.setShowVerticalLines(true);
+            procedureTable.setHeaders("NAME", "PERFORMANCE DATE", "DOCTOR", "OUTCOME","NOTES");
+            for (Procedure procedure : procedures) {
+                User procedureDoctor = userRepository.findById(procedure.doctorId()).get();
+                procedureTable.addRow(procedure.name(), procedure.performanceDate().toString(), procedureDoctor.getName(), procedure.outcome(), procedure.notes());
+            }
+            diagnosisTable.print();
+            System.out.println();
             System.out.println("---------------------------------");
         }
     }
