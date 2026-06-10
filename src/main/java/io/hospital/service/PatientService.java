@@ -64,7 +64,8 @@ public class PatientService {
         ward.setCurrentOccupancy(ward.getCurrentOccupancy() + 1);
         wardRepository.save(ward);
 
-        alertManager.evaluate(new AlertContext(null, ward, null, null));
+        String alert = alertManager.evaluate(new AlertContext(null, ward, null, null));
+        System.out.println(alert);
     }
 
     public List<Patient> getPatients() {
@@ -132,8 +133,9 @@ public class PatientService {
         prescriptionTable.setShowVerticalLines(true);
         prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE","ALERT");
         for (Prescription prescription : prescriptions) {
+            String alert = alertManager.evaluate(new AlertContext(null, null, prescription, null));
             prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()),
-                    prescription.startDate().toString(), prescription.endDate().toString());
+                    prescription.startDate().toString(), prescription.endDate().toString(), alert);
         }
         prescriptionTable.print();
         System.out.println();
@@ -149,7 +151,5 @@ public class PatientService {
         }
         diagnosisTable.print();
         System.out.println();
-        System.out.println();
-
     }
 }

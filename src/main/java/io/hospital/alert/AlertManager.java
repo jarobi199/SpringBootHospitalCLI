@@ -4,6 +4,7 @@ import io.hospital.interfaces.AlertStrategy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class AlertManager {
@@ -13,9 +14,9 @@ public class AlertManager {
         this.strategies = strategies;
     }
 
-    public void evaluate(AlertContext context) {
-        strategies.stream()
+     public String evaluate(AlertContext context) {
+        return strategies.stream()
                 .filter(s -> s.supports(context))
-                .forEach(s -> s.evaluate(context));
+                .map(s -> s.evaluate(context)) .collect(Collectors.joining("\n"));
     }
 }

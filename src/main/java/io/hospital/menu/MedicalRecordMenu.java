@@ -1,12 +1,16 @@
 package io.hospital.menu;
 
 import io.hospital.bridge.SpringContext;
+import io.hospital.enums.Severity;
 import io.hospital.interfaces.IRoleMenu;
+import io.hospital.model.Patient;
 import io.hospital.service.MedicalRecordService;
 import io.hospital.util.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class MedicalRecordMenu implements IRoleMenu {
 
@@ -48,25 +52,37 @@ public class MedicalRecordMenu implements IRoleMenu {
     }
 
     public void writePrescription() {
+        Patient patient = patientMenu.listPatientsAndSelect();
+        System.out.println("Enter the prescription name:");
+        String name = InputHandler.getStringInput();
+        System.out.println("Enter the prescription dosage:");
+        double dosage = InputHandler.getDoubleInput();
+        System.out.println("Enter the prescription frequency:");
+        int frequency = InputHandler.getIntegerInput();
+        System.out.println("Enter the prescription start date (yyyy-MM-dd):");
+        LocalDate startDate = LocalDate.parse(InputHandler.getStringInput());
+        System.out.println("Enter the prescription end date  (yyyy-MM-dd):");
+        LocalDate endDate = LocalDate.parse(InputHandler.getStringInput());
+
+        medicalRecordService.addPrescription(patient, name, dosage, frequency, startDate, endDate);
     }
 
     public void addDiagnosis() {
-        System.out.println("Please enter the patient's first name:");
-        String firstName = InputHandler.getStringInput();
-        System.out.println("Please enter the patient's last name:");
-        String lastName = InputHandler.getStringInput();
+        Patient patient = patientMenu.listPatientsAndSelect();
+        System.out.println("Enter the patient's condition:");
+        String condition = InputHandler.getStringInput();
+        System.out.println("Enter the patient's severity (MILD, MODERATE, SEVERE, CRITICAL):");
+        Severity severity = Severity.valueOf(InputHandler.getStringInput());
+
+        medicalRecordService.addDiagnosis(patient, condition, severity, LocalDate.now());
     }
 
     public void openNewRecord() {
-        System.out.println("Please enter the patient's first name:");
-        String firstName = InputHandler.getStringInput();
-        System.out.println("Please enter the patient's last name:");
-        String lastName = InputHandler.getStringInput();
+        Patient patient = patientMenu.listPatientsAndSelect();
         System.out.println("Please enter the patient notes:");
         String notes = InputHandler.getStringInput();
 
-        medicalRecordService.openRecord(firstName, lastName, notes);
-        System.out.println("Patient medical record has been opened.");
+        medicalRecordService.openRecord(patient, notes);
     }
 
     @Override

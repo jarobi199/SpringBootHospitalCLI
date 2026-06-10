@@ -10,9 +10,7 @@ public class CriticalDiagnosisStrategy implements AlertStrategy {
     }
 
     @Override
-    public void evaluate(AlertContext context) {
-        if(Severity.CRITICAL.equals(context.diagnosis().severity())){
-            System.out.println("ALERT: The diagnosis is CRITICAL!");
-        }
+    public String evaluate(AlertContext context) {
+        return (Severity.CRITICAL.equals(context.diagnosis().severity())) ? "" :  "ALERT: The diagnosis is CRITICAL!";
     }
 }

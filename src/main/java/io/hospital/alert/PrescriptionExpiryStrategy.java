@@ -15,9 +15,11 @@ public class PrescriptionExpiryStrategy implements AlertStrategy {
     }
 
     @Override
-    public void evaluate(AlertContext context) {
+    public String evaluate(AlertContext context) {
+        String result = "";
         if(ChronoUnit.DAYS.between(LocalDate.now(), context.prescription().endDate()) <= EXPIRY_WINDOW) {
-            System.out.println("ALERT: The prescription is about to expire within the next " + EXPIRY_WINDOW + " days!");
+            result = "ALERT: The prescription is about to expire within the next " + EXPIRY_WINDOW + " days!";
         }
+        return result;
     }
 }

@@ -9,10 +9,8 @@ public class WardCapacityStrategy implements AlertStrategy {
     }
 
     @Override
-    public void evaluate(AlertContext context) {
-        if(context.ward().getOccupancyPercent() >= 80) {
-            System.out.println("ALERT: The ward occupancy is over 80%!");
-        }
+    public String evaluate(AlertContext context) {
+        return (context.ward().getOccupancyPercent() >= 80) ? "" : "ALERT: The ward occupancy is over 80%!";
     }
 
 }
