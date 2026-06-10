@@ -97,8 +97,7 @@ public class PatientService {
         }
     }
 
-    public void viewPatient(String firstName, String lastName) {
-        Patient patient = patientRepository.findByFirstNameAndLastName(firstName,lastName).getFirst();
+    public void viewPatient(Patient patient) {
         Optional<Ward> optionalWard = wardRepository.findById(patient.getWardId());
         Optional<User> optionalUser = userRepository.findById(patient.getDoctorId());
         String wardName = (optionalWard.isEmpty()) ? "N/A" : optionalWard.get().getName();
@@ -118,38 +117,45 @@ public class PatientService {
             procedures.addAll(medicalRecord.getProcedures());
         }
 
-        System.out.println("DIAGNOSES");
-        CommandLineTable diagnosisTable = new CommandLineTable();
-        diagnosisTable.setShowVerticalLines(true);
-        diagnosisTable.setHeaders("CONDITION", "SEVERITY", "DIAGNOSIS DATE");
-        for (Diagnosis diagnosis : diagnoses) {
-            diagnosisTable.addRow(diagnosis.condition(), diagnosis.severity().name(), diagnosis.diagnosisDate().toString());
+        if(!diagnoses.isEmpty()){
+            System.out.println("DIAGNOSES");
+            CommandLineTable diagnosisTable = new CommandLineTable();
+            diagnosisTable.setShowVerticalLines(true);
+            diagnosisTable.setHeaders("CONDITION", "SEVERITY", "DIAGNOSIS DATE");
+            for (Diagnosis diagnosis : diagnoses) {
+                diagnosisTable.addRow(diagnosis.condition(), diagnosis.severity().name(), diagnosis.diagnosisDate().toString());
+            }
+            diagnosisTable.print();
+            System.out.println();
         }
-        diagnosisTable.print();
-        System.out.println();
 
-        System.out.println("PRESCRIPTIONS");
-        CommandLineTable prescriptionTable = new CommandLineTable();
-        prescriptionTable.setShowVerticalLines(true);
-        prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE","ALERT");
-        for (Prescription prescription : prescriptions) {
-            String alert = alertManager.evaluate(new AlertContext(null, null, prescription, null));
-            prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()),
-                    prescription.startDate().toString(), prescription.endDate().toString(), alert);
+        if(!prescriptions.isEmpty()) {
+            System.out.println("PRESCRIPTIONS");
+            CommandLineTable prescriptionTable = new CommandLineTable();
+            prescriptionTable.setShowVerticalLines(true);
+            prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE","ALERT");
+            for (Prescription prescription : prescriptions) {
+                String alert = alertManager.evaluate(new AlertContext(null, null, prescription, null));
+                prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()),
+                        prescription.startDate().toString(), prescription.endDate().toString(), alert);
+            }
+            prescriptionTable.print();
+            System.out.println();
+            alertManager.evaluate(new AlertContext(null, null, prescriptions.getFirst(), null));
         }
-        prescriptionTable.print();
-        System.out.println();
-        alertManager.evaluate(new AlertContext(null, null, prescriptions.getFirst(), null));
 
-        System.out.println("PROCEDURES");
-        CommandLineTable procedureTable = new CommandLineTable();
-        procedureTable.setShowVerticalLines(true);
-        procedureTable.setHeaders("NAME", "PERFORMANCE DATE", "DOCTOR", "OUTCOME","NOTES");
-        for (Procedure procedure : procedures) {
-            User doctor = userRepository.findById(procedure.doctorId()).get();
-            procedureTable.addRow(procedure.name(), procedure.performanceDate().toString(), doctor.getName(), procedure.outcome(), procedure.notes());
+        if(!procedures.isEmpty()) {
+            System.out.println("PROCEDURES");
+            CommandLineTable procedureTable = new CommandLineTable();
+            procedureTable.setShowVerticalLines(true);
+            procedureTable.setHeaders("NAME", "PERFORMANCE DATE", "DOCTOR", "OUTCOME","NOTES");
+            for (Procedure procedure : procedures) {
+                User doctor = userRepository.findById(procedure.doctorId()).get();
+                procedureTable.addRow(procedure.name(), procedure.performanceDate().toString(), doctor.getName(), procedure.outcome(), procedure.notes());
+            }
+            procedureTable.print();
+            System.out.println();
         }
-        diagnosisTable.print();
-        System.out.println();
+
     }
 }
