@@ -3,6 +3,7 @@ package io.hospital.model;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalRecord {
@@ -23,6 +24,9 @@ public class MedicalRecord {
         this.visitDate = visitDate;
         this.notes = notes;
         this.open = true;
+        this.diagnoses = new ArrayList<>();
+        this.prescriptions = new ArrayList<>();
+        this.procedures = new ArrayList<>();
     }
 
     public MedicalRecord() {

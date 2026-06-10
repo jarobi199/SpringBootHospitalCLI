@@ -40,8 +40,8 @@ public class MedicalRecordService {
         }
     }
 
-    public void addDiagnosis(Patient patient, String condition, Severity severity, LocalDate diagnosisDate) {
-        Diagnosis diagnosis = new Diagnosis(condition, severity, diagnosisDate);
+    public void addDiagnosis(Patient patient, String diagnosisDescription, Severity severity, LocalDate diagnosisDate) {
+        Diagnosis diagnosis = new Diagnosis(diagnosisDescription, severity, diagnosisDate);
         MedicalRecord  medicalRecord = medicalRecordRepository.findByPatientIdAndOpenOrderByVisitDateDesc(patient.getId(), true).stream().findFirst().orElse(null);
         if(medicalRecord != null){
             medicalRecord.getDiagnoses().add(diagnosis);
@@ -99,12 +99,12 @@ public class MedicalRecordService {
         User doctor = userRepository.findById(patient.getDoctorId()).get();
         System.out.println("PATIENT: " + patient.getFirstName() + " " + patient.getLastName());
         for(MedicalRecord medicalRecord : medicalRecords) {
-            System.out.println("---------------------------------");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("MEDICAL RECORD ID: " + medicalRecord.getId());
             System.out.println("DOCTOR: " + doctor.getName());
             System.out.println("VISIT DATE: " + medicalRecord.getVisitDate());
             System.out.println("NOTES: " + medicalRecord.getNotes());
-            System.out.println("STATUS: " + medicalRecord.isOpen());
+            System.out.println("STATUS: " + (medicalRecord.isOpen() ? "OPEN" : "CLOSED"));
             System.out.println();
 
             List<Diagnosis> diagnoses = medicalRecord.getDiagnoses();
@@ -144,7 +144,7 @@ public class MedicalRecordService {
             }
             diagnosisTable.print();
             System.out.println();
-            System.out.println("---------------------------------");
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 }

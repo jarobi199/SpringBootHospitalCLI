@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 
 public class MedicalRecordMenu implements IRoleMenu {
 
@@ -83,12 +82,12 @@ public class MedicalRecordMenu implements IRoleMenu {
 
     public void addDiagnosis() {
         Patient patient = patientMenu.listPatientsAndSelect();
-        System.out.println("Enter the patient's condition:");
-        String condition = InputHandler.getStringInput();
+        System.out.println("Enter the patient's diagnosis:");
+        String diagnosis = InputHandler.getStringInput();
         System.out.println("Enter the patient's severity (MILD, MODERATE, SEVERE, CRITICAL):");
         Severity severity = Severity.valueOf(InputHandler.getStringInput());
 
-        medicalRecordService.addDiagnosis(patient, condition, severity, LocalDate.now());
+        medicalRecordService.addDiagnosis(patient, diagnosis, severity, LocalDate.now());
     }
 
     public void openNewRecord() {

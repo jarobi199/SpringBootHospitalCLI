@@ -112,6 +112,7 @@ public class PatientMenu implements IRoleMenu {
         List<Patient> allPatients = patientService.getPatients();
         for (Patient patient : allPatients) {
             System.out.println(i + ") " + patient.getFirstName() + " " + patient.getLastName());
+            i++;
         }
         System.out.println("Please select a patient:");
         int patientIndex = InputHandler.getIntegerInput() - 1;

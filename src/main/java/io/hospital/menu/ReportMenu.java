@@ -1,9 +1,14 @@
 package io.hospital.menu;
 
 import io.hospital.interfaces.IRoleMenu;
+import io.hospital.service.ReportService;
 import io.hospital.util.InputHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ReportMenu implements IRoleMenu {
+
+    @Autowired
+    private ReportService reportService;
 
     @Override
     public void show() {
@@ -31,7 +36,7 @@ public class ReportMenu implements IRoleMenu {
     }
 
     public void hospitalSummary() {
-
+        reportService.hospitalSummary();
     }
 
 
