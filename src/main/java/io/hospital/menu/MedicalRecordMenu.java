@@ -4,6 +4,7 @@ import io.hospital.bridge.SpringContext;
 import io.hospital.enums.Severity;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.model.Patient;
+import io.hospital.model.User;
 import io.hospital.service.MedicalRecordService;
 import io.hospital.util.InputHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,26 @@ public class MedicalRecordMenu implements IRoleMenu {
     }
 
     public void viewPatientHistory() {
-
+        Patient patient = patientMenu.listPatientsAndSelect();
+        medicalRecordService.listMedicalRecords(patient);
     }
 
     public void closeRecord() {
+        Patient patient = patientMenu.listPatientsAndSelect();
+        medicalRecordService.closeRecord(patient);
     }
 
     public void recordProcedure() {
+        Patient patient = patientMenu.listPatientsAndSelect();
+        User doctor = patientMenu.listDoctorsAndSelect();
+        System.out.println("Enter the procedure name:");
+        String name = InputHandler.getStringInput();
+        System.out.println("Enter the outcome:");
+        String outcome = InputHandler.getStringInput();
+        System.out.println("Enter the notes:");
+        String notes = InputHandler.getStringInput();
+
+        medicalRecordService.addProcedure(patient, doctor, name, outcome, notes);
     }
 
     public void writePrescription() {

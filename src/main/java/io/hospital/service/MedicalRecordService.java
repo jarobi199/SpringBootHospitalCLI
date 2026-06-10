@@ -3,17 +3,16 @@ package io.hospital.service;
 import io.hospital.alert.AlertContext;
 import io.hospital.alert.AlertManager;
 import io.hospital.enums.Severity;
-import io.hospital.model.Diagnosis;
-import io.hospital.model.MedicalRecord;
-import io.hospital.model.Patient;
-import io.hospital.model.Prescription;
+import io.hospital.model.*;
 import io.hospital.repository.MedicalRecordRepository;
 import io.hospital.repository.PatientRepository;
+import io.hospital.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class MedicalRecordService {
@@ -22,6 +21,8 @@ public class MedicalRecordService {
     private MedicalRecordRepository medicalRecordRepository;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private AlertManager alertManager;
 
@@ -64,6 +65,46 @@ public class MedicalRecordService {
         else
         {
             System.out.println("Patient medical record could not be found!");
+        }
+    }
+
+    public void addProcedure(Patient patient, User doctor, String name, String outcome, String notes) {
+        MedicalRecord medicalRecord = medicalRecordRepository.findByPatientIdAndOpenOrderByVisitDateDesc(patient.getId(), true).stream().findFirst().orElse(null);
+        Procedure procedure = new Procedure(name, LocalDateTime.now(), doctor.getId(), outcome, notes);
+        if(medicalRecord != null){
+            medicalRecord.getProcedures().add(procedure);
+            medicalRecordRepository.save(medicalRecord);
+        }
+        else
+        {
+            System.out.println("Patient medical record could not be found!");
+        }
+    }
+
+    public void closeRecord(Patient patient) {
+        MedicalRecord medicalRecord = medicalRecordRepository.findByPatientIdAndOpenOrderByVisitDateDesc(patient.getId(), true).stream().findFirst().orElse(null);
+        if(medicalRecord != null){
+            medicalRecord.setOpen(false);
+            medicalRecordRepository.save(medicalRecord);
+        }
+        else
+        {
+            System.out.println("Patient medical record could not be found!");
+        }
+    }
+
+    public void listMedicalRecords(Patient patient) {
+        List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientIdOrderByVisitDateDesc(patient.getId());
+        User doctor = userRepository.findById(patient.getDoctorId()).get();
+        System.out.println("PATIENT: " + patient.getFirstName() + " " + patient.getLastName());
+        for(MedicalRecord medicalRecord : medicalRecords) {
+            System.out.println("---------------------------------");
+            System.out.println("MEDICAL RECORD ID: " + medicalRecord.getId());
+            System.out.println("DOCTOR: " + doctor.getName());
+            System.out.println("VISIT DATE: " + medicalRecord.getVisitDate());
+            System.out.println("NOTES: " + medicalRecord.getNotes());
+            System.out.println("STATUS: " + medicalRecord.isOpen());
+            System.out.println("---------------------------------");
         }
     }
 }
