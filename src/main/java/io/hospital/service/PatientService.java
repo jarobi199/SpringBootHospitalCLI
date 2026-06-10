@@ -130,14 +130,25 @@ public class PatientService {
         System.out.println("PRESCRIPTIONS");
         CommandLineTable prescriptionTable = new CommandLineTable();
         prescriptionTable.setShowVerticalLines(true);
-        prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE");
+        prescriptionTable.setHeaders("NAME", "DOSAGE", "FREQUENCY","START DATE","END DATE","ALERT");
         for (Prescription prescription : prescriptions) {
-            prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()), prescription.startDate().toString(), prescription.endDate().toString());
+            prescriptionTable.addRow(prescription.name(), String.valueOf(prescription.dosage()), String.valueOf(prescription.frequency()),
+                    prescription.startDate().toString(), prescription.endDate().toString());
         }
         prescriptionTable.print();
         System.out.println();
+        alertManager.evaluate(new AlertContext(null, null, prescriptions.getFirst(), null));
 
-        System.out.println("PROCEDURES:");
+        System.out.println("PROCEDURES");
+        CommandLineTable procedureTable = new CommandLineTable();
+        procedureTable.setShowVerticalLines(true);
+        procedureTable.setHeaders("NAME", "PERFORMANCE DATE", "DOCTOR", "OUTCOME","NOTES");
+        for (Procedure procedure : procedures) {
+            User doctor = userRepository.findById(procedure.doctorId()).get();
+            procedureTable.addRow(procedure.name(), procedure.performanceDate().toString(), doctor.getName(), procedure.outcome(), procedure.notes());
+        }
+        diagnosisTable.print();
+        System.out.println();
         System.out.println();
 
     }

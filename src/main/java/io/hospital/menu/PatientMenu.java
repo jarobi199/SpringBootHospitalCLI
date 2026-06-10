@@ -83,7 +83,7 @@ public class PatientMenu implements IRoleMenu {
         patientService.admitPatient(firstName, lastName, gender, phoneNumber, birthDate, admissionDate, status, doctor,ward);
     }
 
-    private User listDoctorsAndSelect() {
+    public User listDoctorsAndSelect() {
         int i = 1;
         List<Doctor> availableDoctors = userService.findAllAvailableDoctors();
         for (Doctor doctor : availableDoctors) {
@@ -95,7 +95,7 @@ public class PatientMenu implements IRoleMenu {
         return availableDoctors.get(doctorIndex);
     }
 
-    private Ward listWardsAndSelect() {
+    public Ward listWardsAndSelect() {
         int i = 1;
         List<Ward> allWards = wardService.getWards();
         for (Ward ward : allWards) {
@@ -107,7 +107,7 @@ public class PatientMenu implements IRoleMenu {
         return allWards.get(wardIndex);
     }
 
-    private Patient listPatientsAndSelect() {
+    public Patient listPatientsAndSelect() {
         int i = 1;
         List<Patient> allPatients = patientService.getPatients();
         for (Patient patient : allPatients) {

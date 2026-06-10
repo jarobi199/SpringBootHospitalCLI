@@ -17,8 +17,18 @@ public class MedicalRecord {
     private String notes;
     private boolean open;
 
-    public MedicalRecord() {
+    public MedicalRecord(String patientId, String doctorId,  LocalDateTime visitDate, String notes) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.visitDate = visitDate;
+        this.notes = notes;
+        this.open = true;
     }
+
+    public MedicalRecord() {
+        //No argument constructor
+    }
+
     public LocalDateTime getVisitDate() {
         return visitDate;
     }
