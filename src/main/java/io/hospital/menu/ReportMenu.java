@@ -1,15 +1,17 @@
 package io.hospital.menu;
 
+import io.hospital.bridge.SpringContext;
 import io.hospital.interfaces.IRoleMenu;
 import io.hospital.service.ReportService;
 import io.hospital.util.InputHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ReportMenu implements IRoleMenu {
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
+    public ReportMenu() {
+        this.reportService = SpringContext.getBean(ReportService.class);
+    }
     @Override
     public void show() {
         int choice;
