@@ -71,7 +71,7 @@ public class ReportService {
             String alert =occupancyPercentage >= 80 ? "This ward is over 80% capacity! ⚠" : "";
             String bar = "▓".repeat(filled) + "░".repeat(10 - filled) + " " + alert;
             List<Patient> patients = patientRepository.findByWardId(ward.getId());
-            String longStay = null;
+            String longStay = "";
             for(Patient patient : patients) {
                 longStay = alertManager.evaluate(new AlertContext(patient, null, null, null));
             }

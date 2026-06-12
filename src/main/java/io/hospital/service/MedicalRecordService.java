@@ -97,7 +97,7 @@ public class MedicalRecordService {
     public void listMedicalRecords(Patient patient) {
         List<MedicalRecord> medicalRecords = medicalRecordRepository.findByPatientIdOrderByVisitDateDesc(patient.getId());
         User doctor = userRepository.findById(patient.getDoctorId()).get();
-        System.out.println("PATIENT: " + patient.getFirstName() + " " + patient.getLastName());
+        System.out.println("| PATIENT: " + patient.getFirstName() + " " + patient.getLastName() + " |");
         for(MedicalRecord medicalRecord : medicalRecords) {
             System.out.println("--------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("MEDICAL RECORD ID: " + medicalRecord.getId());
@@ -142,7 +142,7 @@ public class MedicalRecordService {
                 User procedureDoctor = userRepository.findById(procedure.doctorId()).get();
                 procedureTable.addRow(procedure.name(), procedure.performanceDate().toString(), procedureDoctor.getName(), procedure.outcome(), procedure.notes());
             }
-            diagnosisTable.print();
+            procedureTable.print();
             System.out.println();
             System.out.println("--------------------------------------------------------------------------------------------------------------------------------------");
         }

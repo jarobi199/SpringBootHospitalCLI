@@ -1,0 +1,398 @@
+# =============================================================
+# HOSPITAL PATIENT MANAGEMENT SYSTEM - DEBUG MODE TEST INPUT
+# =============================================================
+# Existing admin user: bdole / password
+# Lines starting with # and blank lines are skipped.
+#
+# FLOW:
+#   1.  Login as bdole (ADMINISTRATOR)
+#   2.  Wards     → Add 3 wards
+#   3.  Wards     → List wards
+#   4.  Staff     → Add 1 Doctor
+#   5.  Staff     → Add 1 Receptionist
+#   6.  Staff     → List staff
+#   7.  Doctors   → List all doctors
+#   8.  Doctors   → Set availability (enable doctor)
+#   9.  Patients  → Admit 2 patients
+#  10.  Patients  → List all patients
+#  11.  Patients  → View patient detail
+#  12.  Patients  → Assign patient to doctor
+#  13.  Med Rec   → Open new record for patient 1
+#  14.  Med Rec   → Add diagnosis (MODERATE)
+#  15.  Med Rec   → Write prescription
+#  16.  Med Rec   → Record procedure
+#  17.  Med Rec   → View patient history
+#  18.  Med Rec   → Close record
+#  19.  Reports   → Hospital summary
+#  20.  Reports   → Ward occupancy
+#  21.  Reports   → Active prescriptions
+#  22.  Reports   → Long stay patients
+#  23.  Staff     → Change password
+#  24.  Wards     → View ward patients
+#  25.  Wards     → Delete ward (empty ward)
+#  26.  Patients  → Discharge patient
+#  27.  Staff     → Delete staff member
+#  28.  Admin     → Logout (0)
+#
+# NOTE ON DOCTOR SELECTION:
+#   listDoctorsAndSelect() prints a numbered list of available
+#   doctors. We add Dr. Sarah Chen as doctor index 1.
+#   After setting availability to true, she appears in the list.
+#
+# NOTE ON PATIENT SELECTION:
+#   listPatientsAndSelect() prints a numbered list.
+#   Patient 1 = John Mitchell, Patient 2 = Emma Larsson.
+#
+# NOTE ON WARD SELECTION:
+#   listWardsAndSelect() prints a numbered list.
+#   Ward 1 = General Ward A, Ward 2 = ICU Unit 1, Ward 3 = Paediatric
+#
+# NOTE: dischargePatient and deleteUser cannot be done for
+#   users/patients that have open medical records or are still
+#   referenced. We close the record first, then discharge.
+# =============================================================
+
+
+# -------------------------------------------------------------
+# STEP 1 — Authentication
+# -------------------------------------------------------------
+bdole
+password
+
+
+# -------------------------------------------------------------
+# STEP 2 — Admin menu → Wards (2)
+#           Add ward (2): General Ward A / GENERAL / 20 beds
+# -------------------------------------------------------------
+2
+2
+General Ward A
+GENERAL
+20
+
+
+# -------------------------------------------------------------
+# STEP 3 — Ward menu → Add ward (2): ICU Unit 1 / ICU / 8 beds
+# -------------------------------------------------------------
+2
+ICU Unit 1
+ICU
+8
+
+
+# -------------------------------------------------------------
+# STEP 4 — Ward menu → Add ward (2): Paediatric Ward / PAEDIATRIC / 15 beds
+# -------------------------------------------------------------
+2
+Paediatric Ward
+PAEDIATRIC
+15
+
+
+# -------------------------------------------------------------
+# STEP 5 — Ward menu → List all wards (1)
+# -------------------------------------------------------------
+1
+
+
+# -------------------------------------------------------------
+# STEP 6 — Ward menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 7 — Admin menu → Staff accounts (6)
+#           Add Doctor: Dr. Sarah Chen
+# -------------------------------------------------------------
+6
+2
+Dr. Sarah Chen
+drchen
+docpass123
+DOCTOR
+4821
+CARDIOLOGY
+
+
+# -------------------------------------------------------------
+# STEP 8 — Staff menu → Add staff (2): Receptionist Maria Santos
+# -------------------------------------------------------------
+2
+Maria Santos
+msantos
+recpass456
+RECEPTIONIST
+MORNING
+
+
+# -------------------------------------------------------------
+# STEP 9 — Staff menu → List staff (1)
+# -------------------------------------------------------------
+1
+
+
+# -------------------------------------------------------------
+# STEP 10 — Staff menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 11 — Admin menu → Doctors (3)
+#            List all doctors (1)
+# -------------------------------------------------------------
+3
+1
+
+
+# -------------------------------------------------------------
+# STEP 12 — Doctor list menu → Set availability (3)
+#            Enable Dr. Sarah Chen
+# -------------------------------------------------------------
+3
+drchen
+
+
+# -------------------------------------------------------------
+# STEP 13 — Doctor list menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 14 — Admin menu → Patients (1)
+#            Admit patient 1: John Mitchell
+#            Doctor index 1 = Dr. Sarah Chen
+#            Ward index 1 = General Ward A
+# -------------------------------------------------------------
+1
+3
+John
+Mitchell
+MALE
+4045555
+1968-03-14
+1
+1
+
+
+# -------------------------------------------------------------
+# STEP 15 — Patient menu → Admit patient (3): Emma Larsson
+#            Doctor index 1 = Dr. Sarah Chen
+#            Ward index 2 = ICU Unit 1
+# -------------------------------------------------------------
+3
+Emma
+Larsson
+FEMALE
+4045556
+1991-07-22
+1
+2
+
+
+# -------------------------------------------------------------
+# STEP 16 — Patient menu → List all patients (1)
+# -------------------------------------------------------------
+1
+
+
+# -------------------------------------------------------------
+# STEP 17 — Patient menu → View patient detail (2)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+2
+1
+
+
+# -------------------------------------------------------------
+# STEP 18 — Patient menu → Assign to doctor (5)
+#            Patient index 2 = Emma Larsson
+#            Doctor index 1 = Dr. Sarah Chen
+# -------------------------------------------------------------
+5
+2
+1
+
+
+# -------------------------------------------------------------
+# STEP 19 — Patient menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 20 — Admin menu → Medical records (4)
+#            Open new record (1)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+4
+1
+1
+Initial admission notes for John Mitchell
+
+
+# -------------------------------------------------------------
+# STEP 21 — Medical record menu → Add diagnosis (2)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+2
+1
+Hypertension
+MODERATE
+
+
+# -------------------------------------------------------------
+# STEP 22 — Medical record menu → Write prescription (3)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+3
+1
+Lisinopril
+10.0
+1
+2025-01-01
+2025-04-01
+
+
+# -------------------------------------------------------------
+# STEP 23 — Medical record menu → Record procedure (4)
+#            Patient index 1 = John Mitchell
+#            Doctor index 1 = Dr. Sarah Chen
+# -------------------------------------------------------------
+4
+1
+1
+Blood Pressure Monitoring
+Stable readings achieved
+Daily monitoring for 7 days
+
+
+# -------------------------------------------------------------
+# STEP 24 — Medical record menu → View patient history (6)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+6
+1
+
+
+# -------------------------------------------------------------
+# STEP 25 — Medical record menu → Close record (5)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+5
+1
+
+
+# -------------------------------------------------------------
+# STEP 26 — Medical record menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 27 — Admin menu → Reports (5)
+#            Hospital summary (1)
+# -------------------------------------------------------------
+5
+1
+
+
+# -------------------------------------------------------------
+# STEP 28 — Report menu → Ward occupancy (2)
+# -------------------------------------------------------------
+2
+
+
+# -------------------------------------------------------------
+# STEP 29 — Report menu → Active prescriptions (3)
+# -------------------------------------------------------------
+3
+
+
+# -------------------------------------------------------------
+# STEP 30 — Report menu → Long stay patients (4)
+# -------------------------------------------------------------
+4
+
+
+# -------------------------------------------------------------
+# STEP 31 — Report menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 32 — Admin menu → Staff accounts (6)
+#            Change password (4)
+# -------------------------------------------------------------
+6
+4
+newpassword999
+
+
+# -------------------------------------------------------------
+# STEP 33 — Staff menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 34 — Admin menu → Wards (2)
+#            View ward patients (3) for General Ward A
+# -------------------------------------------------------------
+2
+3
+General Ward A
+
+
+# -------------------------------------------------------------
+# STEP 35 — Ward menu → Delete ward (4): Paediatric Ward
+#            Safe to delete — no patients assigned
+# -------------------------------------------------------------
+4
+Paediatric Ward
+
+
+# -------------------------------------------------------------
+# STEP 36 — Ward menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 37 — Admin menu → Patients (1)
+#            Discharge patient (4): John Mitchell (record closed)
+#            Patient index 1 = John Mitchell
+# -------------------------------------------------------------
+1
+4
+1
+
+
+# -------------------------------------------------------------
+# STEP 38 — Patient menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 39 — Admin menu → Staff accounts (6)
+#            Delete staff member (3): msantos
+# -------------------------------------------------------------
+6
+3
+msantos
+
+
+# -------------------------------------------------------------
+# STEP 40 — Staff menu → Back (0)
+# -------------------------------------------------------------
+0
+
+
+# -------------------------------------------------------------
+# STEP 41 — Admin menu → Logout (0)
+# -------------------------------------------------------------
+0
