@@ -18,7 +18,7 @@ public class LongStayStrategy implements AlertStrategy {
     public String evaluate(AlertContext context) {
         String result = "";
         if((context.patient().getDischargeDate() == null) && ((ChronoUnit.DAYS.between(context.patient().getAdmissionDate(), LocalDate.now()) > ADMISSION_LIMIT))) {
-            result = "ALERT: The patient has been admitted for more than " + ADMISSION_LIMIT + " days!";
+            result = "ALERT: Patient " + context.patient().getFirstName() + " " + context.patient().getLastName() + " been admitted for more than " + ADMISSION_LIMIT + " days!";
         }
         return result;
     }

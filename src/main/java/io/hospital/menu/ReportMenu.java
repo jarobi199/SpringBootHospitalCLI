@@ -29,12 +29,15 @@ public class ReportMenu implements IRoleMenu {
     }
 
     public void longStayPatients() {
+        reportService.listLongStayPatients();
     }
 
     public void activePrescriptions() {
+        reportService.listActivePrescriptions();
     }
 
     public void wardOccupancy() {
+        reportService.listWardOccupancy();
     }
 
     public void hospitalSummary() {
