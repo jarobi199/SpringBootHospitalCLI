@@ -123,7 +123,13 @@ public class ReportService {
             Ward ward = wardRepository.findById(patient.getWardId()).get();
             User doctor = userRepository.findById(patient.getDoctorId()).get();
             long daysAdmitted = longStayMap.get(patient);
-            patientTable.addRow(patient.getFirstName() + " " + patient.getLastName(), doctor.getName(), ward.getName(), daysAdmitted, );
+            Diagnosis diagnosis = null;
+            MedicalRecord medicalRecord = medicalRecordRepository.findByPatientIdOrderByVisitDateDesc(patient.getId()).getFirst();
+            if(medicalRecord != null) {
+                List<Diagnosis> diagnoses = medicalRecord.getDiagnoses().stream().sorted(Comparator.comparing(Diagnosis::diagnosisDate).reversed()).toList();
+                diagnosis = diagnoses.getFirst();
+            }
+            patientTable.addRow(patient.getFirstName() + " " + patient.getLastName(), ward.getName(), doctor.getName(), String.valueOf(daysAdmitted), (diagnosis != null) ? diagnosis.condition() : "");
         }
         patientTable.print();
     }
