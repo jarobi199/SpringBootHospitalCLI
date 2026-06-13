@@ -132,7 +132,6 @@ public class MedicalRecordService {
             }
             prescriptionTable.print();
             System.out.println();
-            alertManager.evaluate(new AlertContext(null, null, prescriptions.getFirst(), null));
 
             System.out.println("PROCEDURES");
             CommandLineTable procedureTable = new CommandLineTable();

@@ -14,10 +14,11 @@ public class InputHandler {
     // ----------------------------------------------------------------
     private static final boolean DEBUG = true;
     private static final String DEBUG_FILE = "C:\\Users\\jarob\\Documents\\Java\\Claude\\SpringBootHospitalCLI\\data\\test_input.txt";
-    private static final int DEBUG_DELAY_MS = 2000;
+    private static final int DEBUG_DELAY_MS = 10;
 
     private static final Scanner consoleScanner = new Scanner(System.in);
     private static BufferedReader debugReader = null;
+    private static int stepCounter = 0;
 
     static {
         if (DEBUG) {
@@ -47,11 +48,14 @@ public class InputHandler {
             while ((line = debugReader.readLine()) != null) {
                 String trimmed = line.trim();
                 // Skip blank lines and comment lines
+                if(trimmed.contains("STEP")) {
+                    stepCounter++;
+                }
                 if (trimmed.isEmpty() || trimmed.startsWith("#")) {
                     continue;
                 }
-                System.out.println("[DEBUG] Input: " + trimmed);
-                sleep(DEBUG_DELAY_MS);
+                System.out.println("[DEBUG - STEP #" + stepCounter + "] Input: " + trimmed);
+                sleep();
                 return trimmed;
             }
             // End of file — fall back to console so the app does not crash
@@ -125,9 +129,9 @@ public class InputHandler {
     // Helpers
     // ----------------------------------------------------------------
 
-    private static void sleep(int millis) {
+    private static void sleep() {
         try {
-            Thread.sleep(millis);
+            Thread.sleep(InputHandler.DEBUG_DELAY_MS);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

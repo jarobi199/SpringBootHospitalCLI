@@ -43,8 +43,7 @@ public class ReportMenu implements IRoleMenu {
     public void hospitalSummary() {
         reportService.hospitalSummary();
     }
-
-
+    
     @Override
     public void printOptions() {
         System.out.println("[1] Hospital summary");
